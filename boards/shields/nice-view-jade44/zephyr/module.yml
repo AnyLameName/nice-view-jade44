@@ -1,0 +1,4 @@
+name: "nice!view jade44"
+build:
+  settings:
+    board_root: .
