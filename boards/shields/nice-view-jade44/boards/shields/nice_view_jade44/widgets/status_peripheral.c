@@ -72,8 +72,8 @@ ZMK_DISPLAY_WIDGET_LISTENER(widget_battery_status, struct battery_status_state,
 
 ZMK_SUBSCRIPTION(widget_battery_status, zmk_battery_state_changed);
 
-int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *parent) {
-    widget->obj = lv_obj_create(parent);
+int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *screen) {
+    widget->obj = lv_obj_create(screen);
     lv_obj_set_size(widget->obj, 160, 68);
     lv_obj_t *top = lv_canvas_create(widget->obj);
     lv_obj_align(top, LV_ALIGN_TOP_RIGHT, 0, 0);

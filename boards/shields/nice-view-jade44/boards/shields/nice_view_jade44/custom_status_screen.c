@@ -7,10 +7,13 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 static struct zmk_widget_status status_widget;
 #endif
 
+/* This hook will be called by zmk.
+ * It overrides a definition in zmk's app/src/display/main.c and is called by initialize_display(...) in that file.
+ */
 lv_obj_t *zmk_display_status_screen() {
 
     lv_obj_t *screen;
-    screen = lv_obj_create(NULL);
+    screen = lv_obj_create(NULL); // Passing NULL here means no parent object, making it a root screen object.
 
 #if IS_ENABLED(CONFIG_NICE_VIEW_WIDGET_STATUS)
     zmk_widget_status_init(&status_widget, screen);

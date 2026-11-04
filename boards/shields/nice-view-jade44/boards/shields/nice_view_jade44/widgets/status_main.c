@@ -29,7 +29,7 @@ struct layer_state
 
 static void draw_top(lv_obj_t *widget, const struct status_state *state)
 {
-    // TODO - Get a better understanding of why there are multiple children and if we can change them.
+    // Canvases don't get names we can reference here, but it was named "top" when it was created.
     lv_obj_t *canvas = lv_obj_get_child(widget, 0);
     blank_background(canvas);
     
@@ -74,20 +74,32 @@ ZMK_DISPLAY_WIDGET_LISTENER(widget_battery_status, struct battery_status_state,
 
 ZMK_SUBSCRIPTION(widget_battery_status, zmk_battery_state_changed);
 
-int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *parent) {
-    widget->obj = lv_obj_create(parent);
+int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *screen) {
+    /* Most of this is currently poorly-understood copying from ZMK's nice_view adapter.
+     * First question is definitely why we need to make a child object instead of directly assigning screen to 
+     * the widget's obj member.
+     * 
+     * The rest appears to just be chopping up the screen into canvases for the widgets.
+     * The -44 x offset for the bottom canvas is very strange, though.
+     */
+    widget->obj = lv_obj_create(screen);
     lv_obj_set_size(widget->obj, 160, 68);
+    
     lv_obj_t *top = lv_canvas_create(widget->obj);
     lv_obj_align(top, LV_ALIGN_TOP_RIGHT, 0, 0);
     lv_canvas_set_buffer(top, widget->cbuf, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
+    
     lv_obj_t *middle = lv_canvas_create(widget->obj);
     lv_obj_align(middle, LV_ALIGN_TOP_LEFT, 24, 0);
     lv_canvas_set_buffer(middle, widget->cbuf2, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
+    
     lv_obj_t *bottom = lv_canvas_create(widget->obj);
     lv_obj_align(bottom, LV_ALIGN_TOP_LEFT, -44, 0);
     lv_canvas_set_buffer(bottom, widget->cbuf3, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
 
+    // What's up with this list? What uses it?
     sys_slist_append(&widgets, &widget->node);
+    // Where is this defined?
     widget_battery_status_init();
 
     return 0;

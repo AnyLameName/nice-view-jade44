@@ -21,6 +21,13 @@ void canvas_draw_text(lv_obj_t *canvas, lv_coord_t x, lv_coord_t y, lv_coord_t m
     lv_canvas_init_layer(canvas, &layer);
 
     draw_dsc->text = txt;
+    /*
+     * Why are we adding CANVAS_SIZE aka 68 to the y value?
+     * And does the fact that we use the same CANVAS_SIZE as the height of the canvas
+     * have anything to do with the fact that the bottom canvas is offset by -44?
+     * 
+     * Could we do all of that much cleaner if we just use proper canvas sizes?
+     */
     lv_area_t coords = {x, y, x + max_w, y + CANVAS_SIZE};
     lv_draw_label(&layer, draw_dsc, &coords);
 
