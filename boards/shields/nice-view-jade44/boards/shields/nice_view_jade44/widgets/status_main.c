@@ -42,7 +42,6 @@ static void draw_top(lv_obj_t *widget, const struct status_state *state)
     rotate_canvas(canvas);
 }
 
-
 static void set_battery_status(struct zmk_widget_status *widget,
                                struct battery_status_state state) {
 #if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
@@ -74,3 +73,24 @@ ZMK_DISPLAY_WIDGET_LISTENER(widget_battery_status, struct battery_status_state,
                             battery_status_update_cb, battery_status_get_state)
 
 ZMK_SUBSCRIPTION(widget_battery_status, zmk_battery_state_changed);
+
+int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *parent) {
+    widget->obj = lv_obj_create(parent);
+    lv_obj_set_size(widget->obj, 160, 68);
+    lv_obj_t *top = lv_canvas_create(widget->obj);
+    lv_obj_align(top, LV_ALIGN_TOP_RIGHT, 0, 0);
+    lv_canvas_set_buffer(top, widget->cbuf, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
+    lv_obj_t *middle = lv_canvas_create(widget->obj);
+    lv_obj_align(middle, LV_ALIGN_TOP_LEFT, 24, 0);
+    lv_canvas_set_buffer(middle, widget->cbuf2, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
+    lv_obj_t *bottom = lv_canvas_create(widget->obj);
+    lv_obj_align(bottom, LV_ALIGN_TOP_LEFT, -44, 0);
+    lv_canvas_set_buffer(bottom, widget->cbuf3, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
+
+    sys_slist_append(&widgets, &widget->node);
+    widget_battery_status_init();
+
+    return 0;
+}
+
+lv_obj_t *zmk_widget_status_obj(struct zmk_widget_status *widget) { return widget->obj; }
