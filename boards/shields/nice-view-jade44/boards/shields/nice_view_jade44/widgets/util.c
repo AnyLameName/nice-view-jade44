@@ -6,6 +6,14 @@ void rotate_canvas(lv_obj_t *canvas) {
     static uint8_t buf_copy[CANVAS_BUF_SIZE];
     memcpy(buf_copy, buf, sizeof(buf_copy));
 
+    /* CANVAS_SIZE showing up again, used as src_width and src_height. What?
+     * 
+     * Another potential clue into the weird lv_obj_align offsets, though. Should have noticed this earlier, 
+     * but the canvas buffers are squares. The screen is a rectangle, and the widgets are (almost?) all rectangles.
+     * I feel like this is being solved in a very weird way.
+     * 
+     * Not yet sure if it's being done poorly or if the most efficient way just looks really weird.
+     */
     const uint32_t stride = lv_draw_buf_width_to_stride(CANVAS_SIZE, CANVAS_COLOR_FORMAT);
     lv_draw_sw_rotate(buf_copy, buf, CANVAS_SIZE, CANVAS_SIZE, stride, stride,
                       LV_DISPLAY_ROTATION_270, CANVAS_COLOR_FORMAT);
