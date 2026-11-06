@@ -28,18 +28,23 @@ config ZMK_DISPLAY_STATUS_SCREEN_CUSTOM
     imply NICE_VIEW_WIDGET_STATUS
 
 config NICE_VIEW_JADE44_BT_1
+    string "Name of first bluetooth profile."
     default "Work"
 
 config NICE_VIEW_JADE44_BT_2
+    string "Name of second bluetooth profile."
     default "Phone"
 
 config NICE_VIEW_JADE44_BT_3
+    string "Name of third bluetooth profile."
     default "Home"
 
 config NICE_VIEW_JADE44_BT_4
+    string "Name of fourth bluetooth profile."
     default "iPad"
 
 config NICE_VIEW_JADE44_BT_5
+    string "Name of fifth bluetooth profile."
     default "EMPTY"
 
 endif # SHIELD_NICE_VIEW_JADE44
