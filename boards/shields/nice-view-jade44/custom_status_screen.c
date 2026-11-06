@@ -14,6 +14,8 @@ lv_obj_t *zmk_display_status_screen() {
 
     lv_obj_t *screen;
     screen = lv_obj_create(NULL); // Passing NULL here means no parent object, making it a root screen object.
+    
+    LOG_WRN("Creating Jade44 status screen");
 
 #if IS_ENABLED(CONFIG_NICE_VIEW_WIDGET_STATUS)
     zmk_widget_status_init(&status_widget, screen);
