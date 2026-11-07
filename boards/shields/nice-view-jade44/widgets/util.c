@@ -19,7 +19,7 @@ void rotate_canvas(lv_obj_t *canvas) {
                       LV_DISPLAY_ROTATION_270, CANVAS_COLOR_FORMAT);
 }
 
-void fill_background(lv_obj_t *canvas) {
+void blank_background(lv_obj_t *canvas) {
     lv_canvas_fill_bg(canvas, LVGL_BACKGROUND, LV_OPA_COVER);
 }
 
