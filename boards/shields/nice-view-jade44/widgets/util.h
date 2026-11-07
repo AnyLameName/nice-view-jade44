@@ -1,13 +1,23 @@
 #include <lvgl.h>
 #include <zmk/endpoints.h>
 
-#define NICEVIEW_PROFILE_COUNT 5
+#define SCREEN_WIDTH 68
+#define SCREEN_HEIGHT 160
 
-#define CANVAS_SIZE 68 // Why?
-#define CANVAS_COLOR_FORMAT LV_COLOR_FORMAT_L8 // smallest type supported by sw_rotate
-#define CANVAS_BUF_SIZE                                                                            \
-    LV_CANVAS_BUF_SIZE(CANVAS_SIZE, CANVAS_SIZE, LV_COLOR_FORMAT_GET_BPP(CANVAS_COLOR_FORMAT),     \
+#define BUFFER_SIZE 68
+#define BUFFER_OFFSET_MIDDLE -44
+#define BUFFER_OFFSET_BOTTOM -112
+
+#define CANVAS_SIZE 68
+#define CANVAS_COLOR_FORMAT LV_COLOR_FORMAT_L8
+#define CANVAS_BUF_SIZE \
+    LV_CANVAS_BUF_SIZE(CANVAS_SIZE, CANVAS_SIZE, LV_COLOR_FORMAT_GET_BPP(CANVAS_COLOR_FORMAT), \
                        LV_DRAW_BUF_STRIDE_ALIGN)
+
+#define LVGL_BACKGROUND                                                                            \
+    IS_ENABLED(CONFIG_NICE_VIEW_WIDGET_INVERTED) ? lv_color_black() : lv_color_white()
+#define LVGL_FOREGROUND                                                                            \
+    IS_ENABLED(CONFIG_NICE_VIEW_WIDGET_INVERTED) ? lv_color_white() : lv_color_black()
 
 #define LVGL_BACKGROUND                                                                            \
     IS_ENABLED(CONFIG_NICE_VIEW_WIDGET_INVERTED) ? lv_color_black() : lv_color_white()
