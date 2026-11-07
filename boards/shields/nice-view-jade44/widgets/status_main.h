@@ -2,6 +2,7 @@
 
 #include <lvgl.h>
 #include <zephyr/kernel.h>
+#include "util.h"
 
 struct zmk_widget_status 
 {
