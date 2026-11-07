@@ -1,3 +1,5 @@
+#pragma once
+
 #include <lvgl.h>
 #include <zmk/endpoints.h>
 
