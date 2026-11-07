@@ -23,6 +23,14 @@ void fill_background(lv_obj_t *canvas) {
     lv_canvas_fill_bg(canvas, LVGL_BACKGROUND, LV_OPA_COVER);
 }
 
+void init_label_dsc(lv_draw_label_dsc_t *label_dsc, lv_color_t color, const lv_font_t *font,
+                    lv_text_align_t align) {
+    lv_draw_label_dsc_init(label_dsc);
+    label_dsc->color = color;
+    label_dsc->font = font;
+    label_dsc->align = align;
+}
+
 void canvas_draw_text(lv_obj_t *canvas, lv_coord_t x, lv_coord_t y, lv_coord_t max_w,
                       lv_draw_label_dsc_t *draw_dsc, const char *txt) {
     lv_layer_t layer;

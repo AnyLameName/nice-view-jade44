@@ -51,3 +51,5 @@ void rotate_canvas(lv_obj_t *canvas);
 void blank_background(lv_obj_t *canvas);
 void canvas_draw_text(lv_obj_t *canvas, lv_coord_t x, lv_coord_t y, lv_coord_t max_w,
                       lv_draw_label_dsc_t *draw_dsc, const char *txt);
+void init_label_dsc(lv_draw_label_dsc_t *label_dsc, lv_color_t color, const lv_font_t *font,
+                    lv_text_align_t align);
