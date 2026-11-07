@@ -36,7 +36,7 @@ static void draw_top(lv_obj_t *widget, const struct status_state *state)
     
     // Let's just say SOMETHING
     lv_draw_label_dsc_t label_dsc;
-    init_label_dsc(&label_dsc, LVGL_FOREGROUND, &lv_font_unscii_8, LV_TEXT_ALIGN_RIGHT);
+    init_label_dsc(&label_dsc, LVGL_FOREGROUND, &lv_font_unscii_8, LV_TEXT_ALIGN_LEFT);
     canvas_draw_text(canvas, 0, 0, CANVAS_SIZE, &label_dsc, "Hey.");
     
     // Always finish by rotating to correct orientation.
