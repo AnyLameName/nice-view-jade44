@@ -74,7 +74,7 @@ ZMK_DISPLAY_WIDGET_LISTENER(widget_battery_status, struct battery_status_state,
 ZMK_SUBSCRIPTION(widget_battery_status, zmk_battery_state_changed);
 
 int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *screen) {
-    widget->obj = lv_obj_create(parent);
+    widget->obj = lv_obj_create(screen);
     lv_obj_set_size(widget->obj, SCREEN_HEIGHT, SCREEN_WIDTH);
     lv_obj_set_style_bg_color(widget->obj, LVGL_BACKGROUND, LV_PART_MAIN);
     lv_obj_set_style_bg_opa(widget->obj, LV_OPA_COVER, LV_PART_MAIN);
@@ -83,13 +83,8 @@ int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *screen) {
     lv_obj_align(top, LV_ALIGN_TOP_RIGHT, 0, 0);
     lv_canvas_set_buffer(top, widget->cbuf, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
 
-    draw_animation(widget->obj);
-
     sys_slist_append(&widgets, &widget->node);
     widget_battery_status_init();
-    widget_peripheral_status_init();
-
-    return 0;
 
     return 0;
 }
