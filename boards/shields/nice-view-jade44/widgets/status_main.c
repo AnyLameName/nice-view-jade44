@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
@@ -34,10 +35,14 @@ static void draw_top(lv_obj_t *widget, const struct status_state *state)
     lv_obj_t *canvas = lv_obj_get_child(widget, 0);
     blank_background(canvas);
     
-    // Let's just say SOMETHING
+    // Basic battery number
     lv_draw_label_dsc_t label_dsc;
     init_label_dsc(&label_dsc, LVGL_FOREGROUND, &lv_font_unscii_8, LV_TEXT_ALIGN_LEFT);
-    canvas_draw_text(canvas, 0, 0, CANVAS_SIZE, &label_dsc, "Hey.");
+    
+    char batteryText[10] = {0};
+    snprintf(batteryText, sizeof(batteryText), "Bat: %d%%", state->battery);
+    
+    canvas_draw_text(canvas, 0, 0, CANVAS_SIZE, &label_dsc, batteryText);
     
     // Always finish by rotating to correct orientation.
     rotate_canvas(canvas);
@@ -88,15 +93,15 @@ int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *screen) {
     
     lv_obj_t *top = lv_canvas_create(widget->obj);
     lv_obj_align(top, LV_ALIGN_TOP_RIGHT, 0, 0);
-    lv_canvas_set_buffer(top, widget->cbuf, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
+    lv_canvas_set_buffer(top, widget->top_buffer, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
     
     lv_obj_t *middle = lv_canvas_create(widget->obj);
     lv_obj_align(middle, LV_ALIGN_TOP_LEFT, 24, 0);
-    lv_canvas_set_buffer(middle, widget->cbuf2, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
+    lv_canvas_set_buffer(middle, widget->mid_buffer, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
     
     lv_obj_t *bottom = lv_canvas_create(widget->obj);
     lv_obj_align(bottom, LV_ALIGN_TOP_LEFT, -44, 0);
-    lv_canvas_set_buffer(bottom, widget->cbuf3, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
+    lv_canvas_set_buffer(bottom, widget->low_buffer, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
 
     // What's up with this list? What uses it?
     sys_slist_append(&widgets, &widget->node);
