@@ -75,6 +75,24 @@ static struct battery_status_state battery_status_get_state(const zmk_event_t *e
     };
 }
 
+/* Okay, here's my best understanding of what these two macros are doing:
+ * ZMK_DISPLAY_WIDGET_LISTENER(listener, state_type, cb, state_func)
+ *   listener: Used as a prefix for what the macro defines, most importantly listener_init, which we must call.
+ *   state_type: A type that we have defined. It will be used in the various callbacks and handlers.
+ *   cb: A function we define that zmk will call. ZMK will pass an instance of state_type.
+ *   state_func: A function we define that zmk will call. It takes a zmk_event_t and returns an instance of state_type.
+ *
+ * ZMK_SUBSCRIPTION(listener, ev_type)
+ *   listener: Again a prefix.
+ *   ev_type: Finally we get to "what event are we listening for?". Needs a ZMK_EVENT_DECLARE(ev_type) somewhere.
+ *
+ * So with these two together, zmk will watch for when ev_type is fired, and it will call state_func,
+ * which takes the event and returns a filled-in instance of state_type, which is then handed to cb. The cb function is
+ * responsible for acting on the changes. Oh, and we do need to call listener_init, which is defined for us.
+ *
+ * Not a huge fan of this level of macro complexity, but that's just how it goes when we're trying to make things
+ * work auto-magically in C.
+ */
 ZMK_DISPLAY_WIDGET_LISTENER(widget_battery_status, struct battery_status_state,
                             battery_status_update_cb, battery_status_get_state)
 
