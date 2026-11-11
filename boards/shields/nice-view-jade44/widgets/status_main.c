@@ -119,8 +119,8 @@ void draw_layer_status(lv_obj_t *widget, const struct layer_state *state) {
 }
 
 static void set_layer_status(struct zmk_widget_status *widget, struct layer_state state) {
-    widget->state.layer_index = state.index;
-    widget->state.layer_label = state.label;
+    widget->state.layer_index = state.layer_index;
+    widget->state.layer_label = state.layer_label;
 
     draw_layer_status(widget->obj, &widget->state);
 }
@@ -132,8 +132,11 @@ static void layer_update_cb(struct layer_state state) {
 
 static struct layer_state layer_get_state(const zmk_event_t *eh) {
     zmk_keymap_layer_index_t index = zmk_keymap_highest_layer_active();
-    return (struct layer_status_state){
-        .index = index, .label = zmk_keymap_layer_name(zmk_keymap_layer_index_to_id(index))};
+    
+    return (struct layer_state){
+        .layer_index = index, 
+        .layer_label = zmk_keymap_layer_name(zmk_keymap_layer_index_to_id(index))
+    };
 }
 
 ZMK_DISPLAY_WIDGET_LISTENER(widget_layer_status, struct layer_state,
