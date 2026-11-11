@@ -42,11 +42,17 @@ struct status_state {
 #endif
 };
 
-struct battery_status_state {
+struct battery_state {
     uint8_t level;
 #if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
     bool usb_present;
 #endif
+};
+
+struct layer_state
+{
+    uint8_t layer_index;
+    const char *layer_label;
 };
 
 void rotate_canvas(lv_obj_t *canvas);
