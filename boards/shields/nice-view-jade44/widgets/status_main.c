@@ -92,7 +92,7 @@ ZMK_DISPLAY_WIDGET_LISTENER(widget_battery_status, struct battery_state,
 
 ZMK_SUBSCRIPTION(widget_battery_status, zmk_battery_state_changed);
 
-void draw_layer_status(lv_obj_t *canvas, const struct layer_state *state) {
+void draw_layer_status(lv_obj_t *widget, const struct layer_state *state) {
     lv_obj_t *canvas = lv_obj_get_child(widget, 2);
 
     lv_draw_rect_dsc_t rect_black_dsc;
