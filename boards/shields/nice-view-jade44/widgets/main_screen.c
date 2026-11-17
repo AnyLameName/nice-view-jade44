@@ -23,7 +23,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
 
-static void draw_top(lv_obj_t *widget, const struct widget_state *state)
+static void draw_top(lv_obj_t *widget, const struct battery_state *battery)
 {
     // Canvases don't get names we can reference here, but it was named "top" when it was created.
     lv_obj_t *canvas = lv_obj_get_child(widget, 0);
@@ -33,24 +33,20 @@ static void draw_top(lv_obj_t *widget, const struct widget_state *state)
     lv_draw_label_dsc_t label_dsc;
     init_label_dsc(&label_dsc, LVGL_FOREGROUND, &lv_font_unscii_8, LV_TEXT_ALIGN_LEFT);
     
-    char batteryText[10] = {0};
-    snprintf(batteryText, sizeof(batteryText), "Bat: %d%%", state->battery);
+    char battery_text[10] = {0};
+    snprintf(battery_text, sizeof(battery_text), "Bat: %d%%", battery->level);
     
-    canvas_draw_text(canvas, 0, 0, CANVAS_SIZE, &label_dsc, batteryText);
+    canvas_draw_text(canvas, 0, 0, CANVAS_SIZE, &label_dsc, battery_text);
     
     // Always finish by rotating to correct orientation.
     rotate_canvas(canvas);
 }
 
 static void set_battery_status(struct zmk_screen_widget *widget,
-                               struct battery_state state) {
-#if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
-    widget->state.charging = state.usb_present;
-#endif /* IS_ENABLED(CONFIG_USB_DEVICE_STACK) */
+                               struct battery_state new_battery_state) {
+    widget->state.battery = new_battery_state;
 
-    widget->state.battery = state.level;
-
-    draw_top(widget->obj, &widget->state);
+    draw_top(widget->obj, &widget->state.battery);
 }
 
 static void battery_status_update_cb(struct battery_state state) {
@@ -92,7 +88,7 @@ ZMK_DISPLAY_WIDGET_LISTENER(widget_battery_status, struct battery_state,
 
 ZMK_SUBSCRIPTION(widget_battery_status, zmk_battery_state_changed);
 
-void draw_layer_status(lv_obj_t *widget, const struct widget_state *state) {
+void draw_layer_status(lv_obj_t *widget, const struct layer_state *layer) {
     lv_obj_t *canvas = lv_obj_get_child(widget, 2);
 
     lv_draw_rect_dsc_t rect_black_dsc;
@@ -104,25 +100,24 @@ void draw_layer_status(lv_obj_t *widget, const struct widget_state *state) {
     blank_background(canvas);
 
     // Draw layer
-    if (state->layer_label == NULL || strlen(state->layer_label) == 0) {
+    if (layer->label == NULL || strlen(layer->label) == 0) {
         char text[10] = {};
 
-        sprintf(text, "LAYER %i", state->layer_index);
+        sprintf(text, "LAYER %i", layer->index);
 
         canvas_draw_text(canvas, 0, 5, 68, &label_dsc, text);
     } else {
-        canvas_draw_text(canvas, 0, 5, 68, &label_dsc, state->layer_label);
+        canvas_draw_text(canvas, 0, 5, 68, &label_dsc, layer->label);
     }
 
     // Rotate canvas
     rotate_canvas(canvas);
 }
 
-static void set_layer_status(struct zmk_screen_widget *widget, struct layer_state layer) {
-    widget->state.layer_index = layer.index;
-    widget->state.layer_label = layer.label;
+static void set_layer_status(struct zmk_screen_widget *widget, struct layer_state new_layer_state) {
+    widget->state.layer = new_layer_state;
 
-    draw_layer_status(widget->obj, &widget->state);
+    draw_layer_status(widget->obj, &widget->state.layer);
 }
 
 static void layer_update_cb(struct layer_state state) {

@@ -26,22 +26,6 @@
 #define LVGL_FOREGROUND                                                                            \
     IS_ENABLED(CONFIG_NICE_VIEW_WIDGET_INVERTED) ? lv_color_white() : lv_color_black()
 
-struct widget_state {
-    uint8_t battery;
-    bool charging;
-#if !IS_ENABLED(CONFIG_ZMK_SPLIT) || IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
-    struct zmk_endpoint_instance selected_endpoint;
-    int active_profile_index;
-    bool active_profile_connected;
-    bool active_profile_bonded;
-    uint8_t layer_index;
-    const char *layer_label;
-    uint8_t wpm[10];
-#else
-    bool connected;
-#endif
-};
-
 struct battery_state {
     uint8_t level;
 #if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
@@ -53,6 +37,15 @@ struct layer_state
 {
     uint8_t index;
     const char *label;
+};
+
+struct widget_state {
+    struct battery_state battery;
+#if !IS_ENABLED(CONFIG_ZMK_SPLIT) || IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
+    struct layer_state layer;
+#else
+    bool connected;
+#endif
 };
 
 void rotate_canvas(lv_obj_t *canvas);
