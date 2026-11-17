@@ -26,7 +26,7 @@ struct peripheral_status_state {
 };
 
 
-static void draw_top(lv_obj_t *widget, const struct status_state *state)
+static void draw_top(lv_obj_t *widget, const struct widget_state *state)
 {
     // TODO - Get a better understanding of why there are multiple children and if we can change them.
     lv_obj_t *canvas = lv_obj_get_child(widget, 0);

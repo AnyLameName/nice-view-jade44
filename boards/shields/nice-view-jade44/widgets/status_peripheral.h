@@ -8,7 +8,7 @@ struct zmk_screen_widget {
     sys_snode_t node;
     lv_obj_t *obj;
     lv_color_t cbuf[CANVAS_SIZE * CANVAS_SIZE];
-    struct status_state state;
+    struct widget_state state;
 };
 
 int zmk_screen_widget_init(struct zmk_screen_widget *widget, lv_obj_t *parent);

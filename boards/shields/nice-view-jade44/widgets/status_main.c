@@ -23,7 +23,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
 
-static void draw_top(lv_obj_t *widget, const struct status_state *state)
+static void draw_top(lv_obj_t *widget, const struct widget_state *state)
 {
     // Canvases don't get names we can reference here, but it was named "top" when it was created.
     lv_obj_t *canvas = lv_obj_get_child(widget, 0);
@@ -92,7 +92,7 @@ ZMK_DISPLAY_WIDGET_LISTENER(widget_battery_status, struct battery_state,
 
 ZMK_SUBSCRIPTION(widget_battery_status, zmk_battery_state_changed);
 
-void draw_layer_status(lv_obj_t *widget, const struct status_state *state) {
+void draw_layer_status(lv_obj_t *widget, const struct widget_state *state) {
     lv_obj_t *canvas = lv_obj_get_child(widget, 2);
 
     lv_draw_rect_dsc_t rect_black_dsc;
