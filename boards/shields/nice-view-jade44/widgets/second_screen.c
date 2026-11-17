@@ -16,14 +16,10 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include "second_screen.h"
 #include "util.h"
 
-LV_IMG_DECLARE(balloon);
-LV_IMG_DECLARE(mountain);
-
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
 
-static void draw_top(lv_obj_t *widget, const struct widget_state *state)
+static void draw_top(lv_obj_t *widget, const struct battery_state *battery)
 {
-    // TODO - Get a better understanding of why there are multiple children and if we can change them.
     lv_obj_t *canvas = lv_obj_get_child(widget, 0);
     blank_background(canvas);
     
@@ -37,14 +33,10 @@ static void draw_top(lv_obj_t *widget, const struct widget_state *state)
 }
 
 static void set_battery_status(struct zmk_screen_widget *widget,
-                               struct battery_state state) {
-#if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
-    widget->state.charging = state.usb_present;
-#endif /* IS_ENABLED(CONFIG_USB_DEVICE_STACK) */
+                               struct battery_state new_battery_state) {
+    widget->state.battery = new_battery_state;
 
-    widget->state.battery = state.level;
-
-    draw_top(widget->obj, &widget->state);
+    draw_top(widget->obj, &widget->state.battery);
 }
 
 static void battery_status_update_cb(struct battery_state state) {
