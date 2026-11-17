@@ -126,7 +126,7 @@ static void set_layer_status(struct zmk_widget_status *widget, struct layer_stat
 }
 
 static void layer_update_cb(struct layer_state state) {
-    struct zmk_widget_screen *widget;
+    struct zmk_widget_status *widget;
     SYS_SLIST_FOR_EACH_CONTAINER(&widgets, widget, node) { set_layer_status(widget, state); }
 }
 
