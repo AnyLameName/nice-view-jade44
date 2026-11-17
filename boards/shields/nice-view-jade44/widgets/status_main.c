@@ -92,7 +92,7 @@ ZMK_DISPLAY_WIDGET_LISTENER(widget_battery_status, struct battery_state,
 
 ZMK_SUBSCRIPTION(widget_battery_status, zmk_battery_state_changed);
 
-void draw_layer_status(lv_obj_t *widget, const struct layer_state *state) {
+void draw_layer_status(lv_obj_t *widget, const struct status_state *state) {
     lv_obj_t *canvas = lv_obj_get_child(widget, 2);
 
     lv_draw_rect_dsc_t rect_black_dsc;
@@ -118,9 +118,9 @@ void draw_layer_status(lv_obj_t *widget, const struct layer_state *state) {
     rotate_canvas(canvas);
 }
 
-static void set_layer_status(struct zmk_widget_status *widget, struct layer_state state) {
-    widget->state.layer_index = state.layer_index;
-    widget->state.layer_label = state.layer_label;
+static void set_layer_status(struct zmk_widget_status *widget, struct layer_state layer) {
+    widget->state.layer_index = layer.index;
+    widget->state.layer_label = layer.label;
 
     draw_layer_status(widget->obj, &widget->state);
 }
@@ -134,15 +134,15 @@ static struct layer_state layer_get_state(const zmk_event_t *eh) {
     zmk_keymap_layer_index_t index = zmk_keymap_highest_layer_active();
     
     return (struct layer_state){
-        .layer_index = index, 
-        .layer_label = zmk_keymap_layer_name(zmk_keymap_layer_index_to_id(index))
+        .index = index,
+        .label = zmk_keymap_layer_name(zmk_keymap_layer_index_to_id(index))
     };
 }
 
 ZMK_DISPLAY_WIDGET_LISTENER(widget_layer_status, struct layer_state,
                             layer_update_cb, layer_get_state)
 
-ZMK_SUBSCRIPTION(widget_battery_status, zmk_battery_state_changed);
+ZMK_SUBSCRIPTION(widget_layer_status, zmk_layer_state_changed);
 
 int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *screen) {
     widget->obj = lv_obj_create(screen);

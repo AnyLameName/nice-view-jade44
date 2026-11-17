@@ -51,8 +51,8 @@ struct battery_state {
 
 struct layer_state
 {
-    uint8_t layer_index;
-    const char *layer_label;
+    uint8_t index;
+    const char *label;
 };
 
 void rotate_canvas(lv_obj_t *canvas);
