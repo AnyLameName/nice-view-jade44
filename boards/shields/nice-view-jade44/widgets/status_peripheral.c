@@ -42,7 +42,7 @@ static void draw_top(lv_obj_t *widget, const struct status_state *state)
 }
 
 static void set_battery_status(struct zmk_widget_status *widget,
-                               struct battery_status_state state) {
+                               struct battery_state state) {
 #if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
     widget->state.charging = state.usb_present;
 #endif /* IS_ENABLED(CONFIG_USB_DEVICE_STACK) */
