@@ -42,7 +42,7 @@ static void draw_top(lv_obj_t *widget, const struct status_state *state)
     rotate_canvas(canvas);
 }
 
-static void set_battery_status(struct zmk_widget_status *widget,
+static void set_battery_status(struct zmk_screen_widget *widget,
                                struct battery_state state) {
 #if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
     widget->state.charging = state.usb_present;
@@ -54,7 +54,7 @@ static void set_battery_status(struct zmk_widget_status *widget,
 }
 
 static void battery_status_update_cb(struct battery_state state) {
-    struct zmk_widget_status *widget;
+    struct zmk_screen_widget *widget;
     SYS_SLIST_FOR_EACH_CONTAINER(&widgets, widget, node) { set_battery_status(widget, state); }
 }
 
@@ -118,7 +118,7 @@ void draw_layer_status(lv_obj_t *widget, const struct status_state *state) {
     rotate_canvas(canvas);
 }
 
-static void set_layer_status(struct zmk_widget_status *widget, struct layer_state layer) {
+static void set_layer_status(struct zmk_screen_widget *widget, struct layer_state layer) {
     widget->state.layer_index = layer.index;
     widget->state.layer_label = layer.label;
 
@@ -126,7 +126,7 @@ static void set_layer_status(struct zmk_widget_status *widget, struct layer_stat
 }
 
 static void layer_update_cb(struct layer_state state) {
-    struct zmk_widget_status *widget;
+    struct zmk_screen_widget *widget;
     SYS_SLIST_FOR_EACH_CONTAINER(&widgets, widget, node) { set_layer_status(widget, state); }
 }
 
@@ -144,7 +144,7 @@ ZMK_DISPLAY_WIDGET_LISTENER(widget_layer_status, struct layer_state,
 
 ZMK_SUBSCRIPTION(widget_layer_status, zmk_layer_state_changed);
 
-int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *screen) {
+int zmk_screen_widget_init(struct zmk_screen_widget *widget, lv_obj_t *screen) {
     widget->obj = lv_obj_create(screen);
     lv_obj_set_size(widget->obj, 160, 68);
     
@@ -172,4 +172,4 @@ int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *screen) {
     return 0;
 }
 
-lv_obj_t *zmk_widget_status_obj(struct zmk_widget_status *widget) { return widget->obj; }
+lv_obj_t *zmk_screen_widget_obj(struct zmk_screen_widget *widget) { return widget->obj; }

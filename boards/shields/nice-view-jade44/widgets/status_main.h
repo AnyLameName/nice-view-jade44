@@ -4,7 +4,7 @@
 #include <zephyr/kernel.h>
 #include "util.h"
 
-struct zmk_widget_status 
+struct zmk_screen_widget
 {
     sys_snode_t node;
     lv_obj_t *obj;
@@ -14,5 +14,5 @@ struct zmk_widget_status
     struct status_state state;
 };
 
-int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *parent);
-lv_obj_t *zmk_widget_status_obj(struct zmk_widget_status *widget);
+int zmk_screen_widget_init(struct zmk_screen_widget *widget, lv_obj_t *parent);
+lv_obj_t *zmk_screen_widget_obj(struct zmk_screen_widget *widget);
