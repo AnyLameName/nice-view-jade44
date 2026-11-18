@@ -2,6 +2,7 @@ if(CONFIG_ZMK_DISPLAY AND CONFIG_NICE_VIEW_WIDGET_STATUS)
     zephyr_library_include_directories(${CMAKE_SOURCE_DIR}/include)
     zephyr_library_sources(src/custom_status_screen.c)
     zephyr_library_sources(src/util.c)
+    zephyr_library_sources(src/widgets/battery.c)
 
     if(NOT CONFIG_ZMK_SPLIT OR CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
         zephyr_library_sources(src/main_screen.c)
