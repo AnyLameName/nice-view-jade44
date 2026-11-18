@@ -1,4 +1,6 @@
+#include <zmk/battery.h>
 #include <zmk/events/battery_state_changed.h>
+#include <zmk/usb.h>
 
 #include "include/battery.h"
 #include "../include/util.h"
