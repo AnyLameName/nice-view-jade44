@@ -15,7 +15,7 @@ void draw_conn_status(lv_obj_t *widget, const struct conn_state *conn) {
     char bt_profile_text[25] = {0};
     snprintf(bt_profile_text, sizeof(bt_profile_text), "BT: %d, %s", conn->active_index, conn->is_connected ? "active" : "dead");
 
-    canvas_draw_text(canvas, 0, 0, CANVAS_SIZE, &label_dsc, profile_text);
+    canvas_draw_text(canvas, 0, 0, CANVAS_SIZE, &label_dsc, bt_profile_text);
 
     // Always finish by rotating to correct orientation.
     rotate_canvas(canvas);
