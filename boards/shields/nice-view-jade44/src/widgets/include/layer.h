@@ -1,6 +1,13 @@
 #pragma once
 
 #include <lvgl.h>
+#include <zephyr/kernel.h>
+
+#if !IS_ENABLED(CONFIG_ZMK_SPLIT) || IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
+#include "../../include/main_screen.h"
+#else
+#include "../../include/second_screen.h"
+#endif
 
 struct layer_state
 {
