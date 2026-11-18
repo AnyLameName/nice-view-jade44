@@ -4,6 +4,7 @@
 #include <zmk/endpoints.h>
 
 #include "../widgets/include/layer.h"
+#include "../widgets/include/battery.h"
 
 #define SCREEN_WIDTH 68
 #define SCREEN_HEIGHT 160
