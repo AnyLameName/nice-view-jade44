@@ -1,8 +1,9 @@
+#include "include/battery.h"
+
 #include <zmk/battery.h>
 #include <zmk/events/battery_state_changed.h>
 #include <zmk/usb.h>
 
-#include "include/battery.h"
 #include "../include/util.h"
 
 void draw_top(lv_obj_t *widget, const struct battery_state *battery)
