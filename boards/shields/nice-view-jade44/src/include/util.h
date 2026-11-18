@@ -23,11 +23,6 @@
 #define LVGL_FOREGROUND                                                                            \
     IS_ENABLED(CONFIG_NICE_VIEW_WIDGET_INVERTED) ? lv_color_white() : lv_color_black()
 
-#define LVGL_BACKGROUND                                                                            \
-    IS_ENABLED(CONFIG_NICE_VIEW_WIDGET_INVERTED) ? lv_color_black() : lv_color_white()
-#define LVGL_FOREGROUND                                                                            \
-    IS_ENABLED(CONFIG_NICE_VIEW_WIDGET_INVERTED) ? lv_color_white() : lv_color_black()
-
 struct battery_state {
     uint8_t level;
 #if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
