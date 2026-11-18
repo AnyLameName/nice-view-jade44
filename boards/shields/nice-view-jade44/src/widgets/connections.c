@@ -21,7 +21,7 @@ void draw_conn_status(lv_obj_t *widget, const struct conn_state *conn) {
     rotate_canvas(canvas);
 }
 
-struct conn_state conn_status_get_state(const zmk_event_t *eh) {
+struct conn_state conn_get_state(const zmk_event_t *eh) {
    return (struct conn_state) {
        .active_index = zmk_ble_active_profile_index(),
        .is_bonded = !zmk_ble_active_profile_is_open(),

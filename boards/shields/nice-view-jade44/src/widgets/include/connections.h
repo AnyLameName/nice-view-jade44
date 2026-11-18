@@ -13,4 +13,4 @@ struct conn_state {
 };
 
 void draw_conn_status(lv_obj_t *widget, const struct conn_state *connections);
-struct conn_state conn_status_get_state(const zmk_event_t *eh);
+struct conn_state conn_get_state(const zmk_event_t *eh);
