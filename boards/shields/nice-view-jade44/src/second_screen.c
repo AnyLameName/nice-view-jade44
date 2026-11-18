@@ -17,22 +17,6 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include "include/util.h"
 #include "widgets/include/battery.h"
 
-static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
-
-static void draw_top(lv_obj_t *widget, const struct battery_state *battery)
-{
-    lv_obj_t *canvas = lv_obj_get_child(widget, 0);
-    blank_background(canvas);
-    
-    // Let's just say SOMETHING
-    lv_draw_label_dsc_t label_dsc;
-    init_label_dsc(&label_dsc, LVGL_FOREGROUND, &lv_font_unscii_8, LV_TEXT_ALIGN_RIGHT);
-    canvas_draw_text(canvas, 0, 0, CANVAS_SIZE, &label_dsc, "Screen Two");
-    
-    // Always finish by rotating to correct orientation.
-    rotate_canvas(canvas);
-}
-
 static void set_battery_status(struct zmk_screen_widget *widget,
                                struct battery_state new_battery_state) {
     widget->state.battery = new_battery_state;
@@ -42,7 +26,7 @@ static void set_battery_status(struct zmk_screen_widget *widget,
 
 static void battery_status_update_cb(struct battery_state state) {
     struct zmk_screen_widget *widget;
-    SYS_SLIST_FOR_EACH_CONTAINER(&widgets, widget, node) { set_battery_status(widget, state); }
+    set_battery_status(widget, state);
 }
 
 ZMK_DISPLAY_WIDGET_LISTENER(widget_battery_status, struct battery_state,
@@ -60,7 +44,6 @@ int zmk_screen_widget_init(struct zmk_screen_widget *widget, lv_obj_t *screen) {
     lv_obj_align(top, LV_ALIGN_TOP_RIGHT, 0, 0);
     lv_canvas_set_buffer(top, widget->cbuf, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
 
-    sys_slist_append(&widgets, &widget->node);
     widget_battery_status_init();
 
     return 0;
