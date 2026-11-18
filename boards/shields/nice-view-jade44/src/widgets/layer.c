@@ -3,8 +3,8 @@
 
 #include <zmk/keymap.h>
 
-#include "include/layer.h"
-#include "../include/util.h"
+#include "layer.h"
+#include "util.h"
 
 void draw_layer_status(lv_obj_t *widget, const struct layer_state *layer) {
     lv_obj_t *canvas = lv_obj_get_child(widget, CANVAS_NUM_BOT);

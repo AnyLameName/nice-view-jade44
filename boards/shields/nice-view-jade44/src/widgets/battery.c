@@ -4,8 +4,8 @@
 #include <zmk/events/battery_state_changed.h>
 #include <zmk/usb.h>
 
-#include "../include/util.h"
-#include "include/battery.h"
+#include "util.h"
+#include "battery.h"
 
 void draw_battery(lv_obj_t *widget, const struct battery_state *battery)
 {

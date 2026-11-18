@@ -17,10 +17,10 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/keymap.h>
 #include <zmk/wpm.h>
 
-#include "include/main_screen.h"
-#include "widgets/include/battery.h"
-#include "widgets/include/connections.h"
-#include "widgets/include/layer.h"
+#include "main_screen.h"
+#include "battery.h"
+#include "connections.h"
+#include "layer.h"
 
 static struct zmk_screen_widget screen_widget;
 
