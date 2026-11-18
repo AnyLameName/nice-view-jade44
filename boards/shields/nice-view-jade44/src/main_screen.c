@@ -18,8 +18,9 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/wpm.h>
 
 #include "include/main_screen.h"
-#include "widgets/include/layer.h"
 #include "widgets/include/battery.h"
+#include "widgets/include/connections.h"
+#include "widgets/include/layer.h"
 
 static struct zmk_screen_widget screen_widget;
 
