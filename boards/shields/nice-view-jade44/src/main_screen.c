@@ -20,49 +20,9 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 #include "include/main_screen.h"
 #include "widgets/include/layer.h"
+#include "widgets/include/battery.h"
 
 static struct zmk_screen_widget screen_widget;
-
-static void draw_top(lv_obj_t *widget, const struct battery_state *battery)
-{
-    // Canvases don't get names we can reference here, but it was named "top" when it was created.
-    lv_obj_t *canvas = lv_obj_get_child(widget, 0);
-    blank_background(canvas);
-    
-    // Basic battery number
-    lv_draw_label_dsc_t label_dsc;
-    init_label_dsc(&label_dsc, LVGL_FOREGROUND, &lv_font_unscii_8, LV_TEXT_ALIGN_LEFT);
-    
-    char battery_text[10] = {0};
-    snprintf(battery_text, sizeof(battery_text), "Bat: %d%%", battery->level);
-    
-    canvas_draw_text(canvas, 0, 0, CANVAS_SIZE, &label_dsc, battery_text);
-    
-    // Always finish by rotating to correct orientation.
-    rotate_canvas(canvas);
-}
-
-static void set_battery_status(struct zmk_screen_widget *widget,
-                               struct battery_state new_battery_state) {
-    widget->state.battery = new_battery_state;
-
-    draw_top(widget->obj, &widget->state.battery);
-}
-
-static void battery_status_update_cb(struct battery_state state) {
-    set_battery_status(&screen_widget, state);
-}
-
-static struct battery_state battery_status_get_state(const zmk_event_t *eh) {
-    const struct zmk_battery_state_changed *ev = as_zmk_battery_state_changed(eh);
-
-    return (struct battery_state){
-        .level = (ev != NULL) ? ev->state_of_charge : zmk_battery_state_of_charge(),
-#if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
-        .usb_present = zmk_usb_is_powered(),
-#endif /* IS_ENABLED(CONFIG_USB_DEVICE_STACK) */
-    };
-}
 
 /* Okay, here's my best understanding of what these two macros are doing:
  * ZMK_DISPLAY_WIDGET_LISTENER(listener, state_type, cb, state_func)
@@ -82,6 +42,18 @@ static struct battery_state battery_status_get_state(const zmk_event_t *eh) {
  * Not a huge fan of this level of macro complexity, but that's just how it goes when we're trying to make things
  * work auto-magically in C.
  */
+
+static void set_battery_status(struct zmk_screen_widget *widget,
+                               struct battery_state new_battery_state) {
+    widget->state.battery = new_battery_state;
+
+    draw_top(widget->obj, &widget->state.battery);
+}
+
+static void battery_status_update_cb(struct battery_state state) {
+    set_battery_status(&screen_widget, state);
+}
+
 ZMK_DISPLAY_WIDGET_LISTENER(widget_battery_status, struct battery_state,
                             battery_status_update_cb, battery_status_get_state)
 

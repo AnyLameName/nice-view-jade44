@@ -15,6 +15,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 #include "include/second_screen.h"
 #include "include/util.h"
+#include "widgets/include/battery.h"
 
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
 
@@ -42,17 +43,6 @@ static void set_battery_status(struct zmk_screen_widget *widget,
 static void battery_status_update_cb(struct battery_state state) {
     struct zmk_screen_widget *widget;
     SYS_SLIST_FOR_EACH_CONTAINER(&widgets, widget, node) { set_battery_status(widget, state); }
-}
-
-static struct battery_state battery_status_get_state(const zmk_event_t *eh) {
-    const struct zmk_battery_state_changed *ev = as_zmk_battery_state_changed(eh);
-
-    return (struct battery_state){
-        .level = (ev != NULL) ? ev->state_of_charge : zmk_battery_state_of_charge(),
-#if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
-        .usb_present = zmk_usb_is_powered(),
-#endif /* IS_ENABLED(CONFIG_USB_DEVICE_STACK) */
-    };
 }
 
 ZMK_DISPLAY_WIDGET_LISTENER(widget_battery_status, struct battery_state,
