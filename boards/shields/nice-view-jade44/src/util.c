@@ -1,4 +1,5 @@
 #include <zephyr/kernel.h>
+
 #include "include/util.h"
 
 void rotate_canvas(lv_obj_t *canvas) {
