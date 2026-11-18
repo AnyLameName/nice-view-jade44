@@ -1,6 +1,7 @@
 #pragma once
 
 #include <lvgl.h>
+#include <stdint.h>
 #include <zmk/event_manager.h>
 
 struct battery_state {
