@@ -89,7 +89,7 @@ ZMK_SUBSCRIPTION(widget_battery_status, zmk_battery_state_changed);
 
 /* LAYER WIDGET */
 
-static void set_layer_status(struct zmk_screen_widget *widget, struct layer_state new_layer_state) {
+void set_layer_status(struct zmk_screen_widget *widget, struct layer_state new_layer_state) {
     widget->state.layer = new_layer_state;
 
     draw_layer_status(widget->obj, &widget->state.layer);
