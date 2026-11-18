@@ -19,7 +19,6 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/wpm.h>
 
 #include "include/main_screen.h"
-#include "include/util.h"
 #include "widgets/include/layer.h"
 
 static struct zmk_screen_widget screen_widget;
