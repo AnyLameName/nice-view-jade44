@@ -1,7 +1,7 @@
 #pragma once
 
 #include <lvgl.h>
-#include <zephyr/kernel.h>
+#include <zmk/event_manager.h>
 
 struct layer_state
 {
