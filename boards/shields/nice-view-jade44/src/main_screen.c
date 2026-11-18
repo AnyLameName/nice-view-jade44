@@ -87,6 +87,14 @@ ZMK_DISPLAY_WIDGET_LISTENER(widget_battery_status, struct battery_state,
 
 ZMK_SUBSCRIPTION(widget_battery_status, zmk_battery_state_changed);
 
+/* LAYER WIDGET */
+
+static void set_layer_status(struct zmk_screen_widget *widget, struct layer_state new_layer_state) {
+    widget->state.layer = new_layer_state;
+
+    draw_layer_status(widget->obj, &widget->state.layer);
+}
+
 ZMK_DISPLAY_WIDGET_LISTENER(widget_layer_status, struct layer_state,
                             layer_update_cb, layer_get_state)
 

@@ -26,13 +26,7 @@ void draw_layer_status(lv_obj_t *widget, const struct layer_state *layer) {
     rotate_canvas(canvas);
 }
 
-static void set_layer_status(struct zmk_screen_widget *widget, struct layer_state new_layer_state) {
-    widget->state.layer = new_layer_state;
-
-    draw_layer_status(widget->obj, &widget->state.layer);
-}
-
-static struct layer_state layer_get_state(const zmk_event_t *eh) {
+struct layer_state layer_get_state(const zmk_event_t *eh) {
     zmk_keymap_layer_index_t index = zmk_keymap_highest_layer_active();
 
     return (struct layer_state){
@@ -41,6 +35,6 @@ static struct layer_state layer_get_state(const zmk_event_t *eh) {
     };
 }
 
-static void layer_update_cb(struct layer_state state) {
+void layer_update_cb(struct layer_state state) {
     set_layer_status(&screen_widget, state);
 }
