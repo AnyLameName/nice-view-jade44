@@ -3,8 +3,9 @@
 #include <lvgl.h>
 #include <zmk/endpoints.h>
 
-#include "../widgets/include/layer.h"
 #include "../widgets/include/battery.h"
+#include "../widgets/include/connections.h"
+#include "../widgets/include/layer.h"
 
 #define SCREEN_WIDTH 68
 #define SCREEN_HEIGHT 160
@@ -30,6 +31,7 @@
 
 struct widget_state {
     struct battery_state battery;
+    struct conn_state connections;
 #if !IS_ENABLED(CONFIG_ZMK_SPLIT) || IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
     struct layer_state layer;
 #else
