@@ -3,6 +3,8 @@
 #include <lvgl.h>
 #include <zmk/endpoints.h>
 
+#include "../widgets/include/layer.h"
+
 #define SCREEN_WIDTH 68
 #define SCREEN_HEIGHT 160
 
@@ -31,12 +33,6 @@ struct battery_state {
 #if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
     bool usb_present;
 #endif
-};
-
-struct layer_state
-{
-    uint8_t index;
-    const char *label;
 };
 
 struct widget_state {

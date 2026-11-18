@@ -1,5 +1,5 @@
 #include <zephyr/kernel.h>
-#include "util.h"
+#include "widgets/util.h"
 
 void rotate_canvas(lv_obj_t *canvas) {
     uint8_t *buf = lv_canvas_get_draw_buf(canvas)->data;

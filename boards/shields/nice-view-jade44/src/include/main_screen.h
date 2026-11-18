@@ -6,7 +6,6 @@
 
 struct zmk_screen_widget
 {
-    sys_snode_t node;
     lv_obj_t *obj;
     uint8_t top_buffer[CANVAS_BUF_SIZE];
     uint8_t mid_buffer[CANVAS_BUF_SIZE];
