@@ -9,7 +9,6 @@
 
 void draw_battery(lv_obj_t *widget, const struct battery_state *battery)
 {
-    // Canvases don't get names we can reference here, but it was named "top" when it was created.
     lv_obj_t *canvas = lv_obj_get_child(widget, CANVAS_NUM_TOP);
     blank_background(canvas);
 
