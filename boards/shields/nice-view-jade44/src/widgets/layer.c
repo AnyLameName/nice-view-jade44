@@ -7,7 +7,7 @@
 #include "../include/util.h"
 
 void draw_layer_status(lv_obj_t *widget, const struct layer_state *layer) {
-    lv_obj_t *canvas = lv_obj_get_child(widget, 2);
+    lv_obj_t *canvas = lv_obj_get_child(widget, CANVAS_NUM_BOT);
 
     lv_draw_rect_dsc_t rect_black_dsc;
     init_rect_dsc(&rect_black_dsc, LVGL_BACKGROUND);

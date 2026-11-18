@@ -42,11 +42,13 @@ static struct zmk_screen_widget screen_widget;
  * work auto-magically in C.
  */
 
+/* BATTERY WIDGET */
+
 static void set_battery_status(struct zmk_screen_widget *widget,
                                struct battery_state new_battery_state) {
     widget->state.battery = new_battery_state;
 
-    draw_top(widget->obj, &widget->state.battery);
+    draw_battery(widget->obj, &widget->state.battery);
 }
 
 static void battery_status_update_cb(struct battery_state state) {
@@ -75,6 +77,29 @@ ZMK_DISPLAY_WIDGET_LISTENER(widget_layer_status, struct layer_state,
 
 ZMK_SUBSCRIPTION(widget_layer_status, zmk_layer_state_changed);
 
+/* CONNECTIONS WIDGET */
+
+static void set_conn_status(struct zmk_screen_widget *widget, struct conn_state new_conn_state) {
+    widget->state.connections = new_conn_state;
+
+    draw_conn_status(widget->obj, &widget->state.connections);
+}
+
+static void conn_update_cb(struct conn_state state) {
+    set_conn_status(&screen_widget, state);
+}
+
+ZMK_DISPLAY_WIDGET_LISTENER(widget_conn_status, struct conn_state,
+                            conn_update_cb, conn_get_state)
+
+#if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
+ZMK_SUBSCRIPTION(widget_conn_status, zmk_usb_conn_state_changed);
+#endif
+#if defined(CONFIG_ZMK_BLE)
+ZMK_SUBSCRIPTION(widget_conn_status, zmk_ble_active_profile_changed);
+#endif
+
+// Set up the canvas buffers and initialize all widgets
 int zmk_screen_widget_init(struct zmk_screen_widget *widget, lv_obj_t *screen) {
     widget->obj = lv_obj_create(screen);
     lv_obj_set_size(widget->obj, 160, 68);
@@ -96,6 +121,7 @@ int zmk_screen_widget_init(struct zmk_screen_widget *widget, lv_obj_t *screen) {
      */
     widget_battery_status_init();
     widget_layer_status_init();
+    widget_conn_status_init();
 
     return 0;
 }
