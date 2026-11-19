@@ -1,7 +1,7 @@
 #include <zephyr/kernel.h>
 
-#include "util.h"
-#include "connections.h"
+#include <util.h>
+#include <connections.h>
 
 void draw_conn_status(lv_obj_t *widget, const struct conn_state *conn) {
     lv_obj_t *canvas = lv_obj_get_child(widget, CANVAS_NUM_MID);
