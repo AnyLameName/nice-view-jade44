@@ -73,10 +73,12 @@ static void layer_update_cb(struct layer_state state) {
     set_layer_status(&screen_widget, state);
 }
 
+/*
 ZMK_DISPLAY_WIDGET_LISTENER(widget_layer_status, struct layer_state,
                             layer_update_cb, layer_get_state)
 
 ZMK_SUBSCRIPTION(widget_layer_status, zmk_layer_state_changed);
+*/
 
 /* CONNECTIONS WIDGET */
 
@@ -90,6 +92,7 @@ static void conn_update_cb(struct conn_state state) {
     set_conn_status(&screen_widget, state);
 }
 
+/*
 ZMK_DISPLAY_WIDGET_LISTENER(widget_conn_status, struct conn_state,
                             conn_update_cb, conn_get_state)
 
@@ -99,6 +102,7 @@ ZMK_SUBSCRIPTION(widget_conn_status, zmk_usb_conn_state_changed);
 #if defined(CONFIG_ZMK_BLE)
 ZMK_SUBSCRIPTION(widget_conn_status, zmk_ble_active_profile_changed);
 #endif
+*/
 
 // Set up the canvas buffers and initialize all widgets
 int zmk_screen_widget_init(struct zmk_screen_widget *widget, lv_obj_t *screen) {
@@ -121,8 +125,8 @@ int zmk_screen_widget_init(struct zmk_screen_widget *widget, lv_obj_t *screen) {
      * We need to call them, but we don't need to care about them.
      */
     widget_battery_status_init();
-    widget_layer_status_init();
-    widget_conn_status_init();
+    //widget_layer_status_init();
+    //widget_conn_status_init();
 
     return 0;
 }
