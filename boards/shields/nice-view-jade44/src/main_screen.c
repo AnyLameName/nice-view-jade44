@@ -19,10 +19,9 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 #include <main_screen.h>
 #include <battery.h>
-#include <connections.h>
-#include <layer.h>
+#include <util.h>
 
-static struct zmk_screen_widget screen_widget;
+static struct zmk_screen_widget *screen_widget;
 
 /* Okay, here's my best understanding of what these two macros are doing:
  * ZMK_DISPLAY_WIDGET_LISTENER(listener, state_type, cb, state_func)
@@ -33,7 +32,7 @@ static struct zmk_screen_widget screen_widget;
  *
  * ZMK_SUBSCRIPTION(listener, ev_type)
  *   listener: Again a prefix.
- *   ev_type: Finally we get to "what event are we listening for?". Needs a ZMK_EVENT_DECLARE(ev_type) somewhere.
+ *   ev_type: Finally we get to "what event are we listening for?". Needs a ZMK_EVENT_DECLARE(ev_type) somewhere in zmk.
  *
  * So with these two together, zmk will watch for when ev_type is fired, and it will call state_func,
  * which takes the event and returns a filled-in instance of state_type, which is then handed to cb. The cb function is
@@ -45,88 +44,32 @@ static struct zmk_screen_widget screen_widget;
 
 /* BATTERY WIDGET */
 
-static void set_battery_status(struct zmk_screen_widget *widget,
-                               struct battery_state new_battery_state) {
-    widget->state.battery = new_battery_state;
-
-    draw_battery(widget->obj, &widget->state.battery);
-}
-
 static void battery_status_update_cb(struct battery_state state) {
-    set_battery_status(&screen_widget, state);
+    screen_widget->state.battery = new_battery_state;
+
+    draw_battery(screen_widget->obj, &screen_widget->state.battery);
 }
 
-ZMK_DISPLAY_WIDGET_LISTENER(widget_battery_status, struct battery_state,
+ZMK_DISPLAY_WIDGET_LISTENER(battery_widget, struct battery_state,
                             battery_status_update_cb, battery_status_get_state)
 
-ZMK_SUBSCRIPTION(widget_battery_status, zmk_battery_state_changed);
-
-/* LAYER WIDGET */
-
-static void set_layer_status(struct zmk_screen_widget *widget, struct layer_state new_layer_state) {
-    widget->state.layer = new_layer_state;
-
-    draw_layer_status(widget->obj, &widget->state.layer);
-}
-
-static void layer_update_cb(struct layer_state state) {
-    set_layer_status(&screen_widget, state);
-}
-
-/*
-ZMK_DISPLAY_WIDGET_LISTENER(widget_layer_status, struct layer_state,
-                            layer_update_cb, layer_get_state)
-
-ZMK_SUBSCRIPTION(widget_layer_status, zmk_layer_state_changed);
-*/
-
-/* CONNECTIONS WIDGET */
-
-static void set_conn_status(struct zmk_screen_widget *widget, struct conn_state new_conn_state) {
-    widget->state.connections = new_conn_state;
-
-    draw_conn_status(widget->obj, &widget->state.connections);
-}
-
-static void conn_update_cb(struct conn_state state) {
-    set_conn_status(&screen_widget, state);
-}
-
-/*
-ZMK_DISPLAY_WIDGET_LISTENER(widget_conn_status, struct conn_state,
-                            conn_update_cb, conn_get_state)
-
-#if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
-ZMK_SUBSCRIPTION(widget_conn_status, zmk_usb_conn_state_changed);
-#endif
-#if defined(CONFIG_ZMK_BLE)
-ZMK_SUBSCRIPTION(widget_conn_status, zmk_ble_active_profile_changed);
-#endif
-*/
+ZMK_SUBSCRIPTION(battery_widget, zmk_battery_state_changed);
 
 // Set up the canvas buffers and initialize all widgets
 int zmk_screen_widget_init(struct zmk_screen_widget *widget, lv_obj_t *screen) {
-    widget->obj = lv_obj_create(screen);
-    lv_obj_set_size(widget->obj, 160, 68);
+    screen_widget = widget;
+
+    screen_widget->obj = lv_obj_create(screen);
+    lv_obj_set_size(screen_widget->obj, SCREEN_HEIGHT, SCREEN_WIDTH);
     
-    lv_obj_t *top = lv_canvas_create(widget->obj);
+    lv_obj_t *main = lv_canvas_create(screen_widget->obj);
     lv_obj_align(top, LV_ALIGN_TOP_RIGHT, 0, 0);
-    lv_canvas_set_buffer(top, widget->top_buffer, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
-    
-    lv_obj_t *middle = lv_canvas_create(widget->obj);
-    lv_obj_align(middle, LV_ALIGN_TOP_LEFT, 24, 0);
-    lv_canvas_set_buffer(middle, widget->mid_buffer, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
-    
-    lv_obj_t *bottom = lv_canvas_create(widget->obj);
-    lv_obj_align(bottom, LV_ALIGN_TOP_LEFT, -44, 0);
-    lv_canvas_set_buffer(bottom, widget->low_buffer, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
+    lv_canvas_set_buffer(top, screen_widget->top_buffer, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
 
     /* These _init functions defined by the ZMK_DISPLAY_WIDGET_LISTENER macro.
      * We need to call them, but we don't need to care about them.
      */
-    widget_battery_status_init();
-    //widget_layer_status_init();
-    //widget_conn_status_init();
+    battery_widget_init();
 
     return 0;
 }

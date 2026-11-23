@@ -3,20 +3,10 @@
 #include <lvgl.h>
 #include <zmk/endpoints.h>
 
-#include "../widgets/include/battery.h"
-#include "../widgets/include/connections.h"
-#include "../widgets/include/layer.h"
+#include "battery.h"
 
 #define SCREEN_WIDTH 68
 #define SCREEN_HEIGHT 160
-
-#define BUFFER_SIZE 68
-#define BUFFER_OFFSET_MIDDLE -44
-#define BUFFER_OFFSET_BOTTOM -112
-
-#define CANVAS_NUM_TOP 0
-#define CANVAS_NUM_MID 1
-#define CANVAS_NUM_BOT 2
 
 #define CANVAS_SIZE 68
 #define CANVAS_COLOR_FORMAT LV_COLOR_FORMAT_L8
@@ -31,9 +21,7 @@
 
 struct widget_state {
     struct battery_state battery;
-    struct conn_state connections;
 #if !IS_ENABLED(CONFIG_ZMK_SPLIT) || IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
-    struct layer_state layer;
 #else
     bool connected;
 #endif

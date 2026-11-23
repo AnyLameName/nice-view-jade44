@@ -14,6 +14,8 @@ void rotate_canvas(lv_obj_t *canvas) {
      * I feel like this is being solved in a very weird way.
      * 
      * Not yet sure if it's being done poorly or if the most efficient way just looks really weird.
+     * Update: Seems to be sort of both?. Rotated squares are the same dimensions, but I'm not convinced
+     * that we can't just make sure our destination buffer is sized correctly.
      */
     const uint32_t stride = lv_draw_buf_width_to_stride(CANVAS_SIZE, CANVAS_COLOR_FORMAT);
     lv_draw_sw_rotate(buf_copy, buf, CANVAS_SIZE, CANVAS_SIZE, stride, stride,
