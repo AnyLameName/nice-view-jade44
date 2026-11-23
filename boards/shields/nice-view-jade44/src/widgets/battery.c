@@ -9,6 +9,9 @@
 
 void draw_battery(lv_obj_t *widget, const struct battery_state *battery)
 {
+    /* The only thing we do with widget is get the canvas.
+     * Can we track and pass the canvas directly?
+     */
     lv_obj_t *canvas = lv_obj_get_child(widget, CANVAS_NUM_TOP);
     blank_background(canvas);
 

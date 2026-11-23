@@ -44,9 +44,13 @@ static struct zmk_screen_widget *screen_widget;
 
 /* BATTERY WIDGET */
 
-static void battery_status_update_cb(struct battery_state state) {
+static void battery_status_update_cb(struct battery_state new_battery_state) {
     screen_widget->state.battery = new_battery_state;
 
+    /* The new battery state is passed separately like this so it can be received
+     * as a const pointer, but this raises the question of why it even needs to be
+     * part of screen_widget at all.
+     */
     draw_battery(screen_widget->obj, &screen_widget->state.battery);
 }
 
