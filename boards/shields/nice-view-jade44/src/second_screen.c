@@ -15,7 +15,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 #include <second_screen.h>
 #include <util.h>
-#include <battery.h>
+#include <widget/battery.h>
 
 static void set_battery_status(struct zmk_screen_widget *widget,
                                struct battery_state new_battery_state) {
