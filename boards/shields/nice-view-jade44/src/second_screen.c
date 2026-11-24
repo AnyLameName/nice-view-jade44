@@ -21,7 +21,7 @@ static void set_battery_status(struct zmk_screen_widget *widget,
                                struct battery_state new_battery_state) {
     widget->state.battery = new_battery_state;
 
-    draw_battery(widget->obj, &widget->state.battery);
+    draw_battery(widget->screen_obj, &widget->state.battery);
 }
 
 static void battery_status_update_cb(struct battery_state state) {
@@ -35,12 +35,12 @@ ZMK_DISPLAY_WIDGET_LISTENER(widget_battery_status, struct battery_state,
 ZMK_SUBSCRIPTION(widget_battery_status, zmk_battery_state_changed);
 
 int zmk_screen_widget_init(struct zmk_screen_widget *widget, lv_obj_t *screen) {
-    widget->obj = lv_obj_create(screen);
-    lv_obj_set_size(widget->obj, SCREEN_HEIGHT, SCREEN_WIDTH);
-    lv_obj_set_style_bg_color(widget->obj, LVGL_BACKGROUND, LV_PART_MAIN);
-    lv_obj_set_style_bg_opa(widget->obj, LV_OPA_COVER, LV_PART_MAIN);
+    widget->screen_obj = lv_obj_create(screen);
+    lv_obj_set_size(widget->screen_obj, SCREEN_HEIGHT, SCREEN_WIDTH);
+    lv_obj_set_style_bg_color(widget->screen_obj, LVGL_BACKGROUND, LV_PART_MAIN);
+    lv_obj_set_style_bg_opa(widget->screen_obj, LV_OPA_COVER, LV_PART_MAIN);
 
-    lv_obj_t *top = lv_canvas_create(widget->obj);
+    lv_obj_t *top = lv_canvas_create(widget->screen_obj);
     lv_obj_align(top, LV_ALIGN_TOP_RIGHT, 0, 0);
     lv_canvas_set_buffer(top, widget->cbuf, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
 
@@ -49,4 +49,4 @@ int zmk_screen_widget_init(struct zmk_screen_widget *widget, lv_obj_t *screen) {
     return 0;
 }
 
-lv_obj_t *zmk_screen_widget_obj(struct zmk_screen_widget *widget) { return widget->obj; }
+lv_obj_t *zmk_screen_widget_obj(struct zmk_screen_widget *widget) { return widget->screen_obj; }

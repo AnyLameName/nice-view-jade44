@@ -6,7 +6,8 @@
 
 struct zmk_screen_widget
 {
-    lv_obj_t *obj;
+    lv_obj_t *screen_obj;
+    lv_obj_t *main_canvas;
     uint8_t main_buffer[CANVAS_BUF_SIZE];
     struct widget_state state;
 };

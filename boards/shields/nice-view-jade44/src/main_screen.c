@@ -51,7 +51,7 @@ static void battery_status_update_cb(struct battery_state new_battery_state) {
      * as a const pointer, but this raises the question of why it even needs to be
      * part of screen_widget at all.
      */
-    draw_battery(screen_widget->obj, &screen_widget->state.battery);
+    draw_battery(screen_widget->main_canvas, &screen_widget->state.battery);
 }
 
 ZMK_DISPLAY_WIDGET_LISTENER(battery_widget, struct battery_state,
@@ -59,14 +59,15 @@ ZMK_DISPLAY_WIDGET_LISTENER(battery_widget, struct battery_state,
 
 ZMK_SUBSCRIPTION(battery_widget, zmk_battery_state_changed);
 
-// Set up the canvas buffers and initialize all widgets
+// Set up the canvases and buffers, initialize all widgets
 int zmk_screen_widget_init(struct zmk_screen_widget *widget, lv_obj_t *screen) {
     screen_widget = widget;
 
-    screen_widget->obj = lv_obj_create(screen);
-    lv_obj_set_size(screen_widget->obj, SCREEN_HEIGHT, SCREEN_WIDTH);
+    screen_widget->screen_obj = lv_obj_create(screen);
+    lv_obj_set_size(screen_widget->screen_obj, SCREEN_HEIGHT, SCREEN_WIDTH);
     
-    lv_obj_t *main = lv_canvas_create(screen_widget->obj);
+    lv_obj_t *main = lv_canvas_create(screen_widget->screen_obj);
+    screen_widget->main_canvas = main;
     lv_obj_align(main, LV_ALIGN_TOP_RIGHT, 0, 0);
     lv_canvas_set_buffer(main, screen_widget->main_buffer, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
 
@@ -78,4 +79,4 @@ int zmk_screen_widget_init(struct zmk_screen_widget *widget, lv_obj_t *screen) {
     return 0;
 }
 
-lv_obj_t *zmk_screen_widget_obj(struct zmk_screen_widget *widget) { return widget->obj; }
+lv_obj_t *zmk_screen_widget_obj(struct zmk_screen_widget *widget) { return widget->screen_obj; }

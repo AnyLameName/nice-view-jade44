@@ -11,5 +11,5 @@ struct battery_state {
 #endif
 };
 
-void draw_battery(lv_obj_t *widget, const struct battery_state *battery);
+void draw_battery(lv_obj_t *canvas, const struct battery_state *battery);
 struct battery_state battery_status_get_state(const zmk_event_t *eh);
