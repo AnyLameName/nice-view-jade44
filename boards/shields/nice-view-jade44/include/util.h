@@ -3,7 +3,7 @@
 #include <lvgl.h>
 #include <zmk/endpoints.h>
 
-#include "battery.h"
+#include "widgets/battery.h"
 
 #define SCREEN_WIDTH 68
 #define SCREEN_HEIGHT 160

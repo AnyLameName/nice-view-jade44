@@ -5,7 +5,7 @@
 #include <zmk/usb.h>
 
 #include <util.h>
-#include <battery.h>
+#include <widgets/battery.h>
 
 void draw_battery(lv_obj_t *widget, const struct battery_state *battery)
 {
