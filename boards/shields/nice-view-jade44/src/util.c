@@ -4,7 +4,7 @@
 
 void rotate_canvas(lv_obj_t *canvas) {
     uint8_t *buf = lv_canvas_get_draw_buf(canvas)->data;
-    static uint8_t buf_copy[CANVAS_BUF_SIZE];
+    static uint8_t buf_copy[CANVAS_BUF_SIZE(CANVAS_SIZE, CANVAS_SIZE)];
     memcpy(buf_copy, buf, sizeof(buf_copy));
 
     /* CANVAS_SIZE showing up again, used as src_width and src_height. What?
