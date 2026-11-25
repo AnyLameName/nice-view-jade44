@@ -8,6 +8,10 @@
 #define SCREEN_WIDTH 68
 #define SCREEN_HEIGHT 160
 
+// These may seem weird, but they exist just to help us remember that the screen is rotated 90 degrees
+#define PANEL_WIDTH SCREEN_HEIGHT
+#define PANEL_HEIGHT SCREEN_WIDTH
+
 #define CANVAS_SIZE 68
 #define CANVAS_COLOR_FORMAT LV_COLOR_FORMAT_L8
 #define CANVAS_BUF_SIZE(width, height) \

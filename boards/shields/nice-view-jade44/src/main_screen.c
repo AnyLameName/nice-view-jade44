@@ -64,7 +64,7 @@ int zmk_screen_widget_init(struct zmk_screen_widget *widget, lv_obj_t *screen) {
     screen_widget = widget;
 
     screen_widget->screen_obj = lv_obj_create(screen);
-    lv_obj_set_size(screen_widget->screen_obj, SCREEN_HEIGHT, SCREEN_WIDTH);
+    lv_obj_set_size(screen_widget->screen_obj, PANEL_WIDTH, PANEL_HEIGHT);
     
     lv_obj_t *main = lv_canvas_create(screen_widget->screen_obj);
     screen_widget->main_canvas = main;
