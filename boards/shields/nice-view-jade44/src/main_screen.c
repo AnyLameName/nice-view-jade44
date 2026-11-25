@@ -23,6 +23,12 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 static struct zmk_screen_widget *screen_widget;
 
+static void draw_background(lv_obj_t *screen_obj) {
+    lv_obj_t *background = lv_img_create(screen_obj);
+    lv_img_set_src(background, &main_background);
+    lv_obj_align(background, LV_ALIGN_CENTER, 0, 0);
+}
+
 /* Okay, here's my best understanding of what these two macros are doing:
  * ZMK_DISPLAY_WIDGET_LISTENER(listener, state_type, cb, state_func)
  *   listener: Used as a prefix for what the macro defines, most importantly listener_init, which we must call.
@@ -65,6 +71,8 @@ int zmk_screen_widget_init(struct zmk_screen_widget *widget, lv_obj_t *screen) {
 
     screen_widget->screen_obj = lv_obj_create(screen);
     lv_obj_set_size(screen_widget->screen_obj, PANEL_WIDTH, PANEL_HEIGHT);
+
+    draw_background(screen_widget->screen_obj);
     
     lv_obj_t *main = lv_canvas_create(screen_widget->screen_obj);
     screen_widget->main_canvas = main;
