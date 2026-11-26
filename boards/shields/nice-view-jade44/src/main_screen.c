@@ -62,10 +62,12 @@ static void battery_status_update_cb(struct battery_state new_battery_state) {
     draw_battery(screen_widget->main_canvas, &screen_widget->state.battery);
 }
 
+/*
 ZMK_DISPLAY_WIDGET_LISTENER(battery_widget, struct battery_state,
                             battery_status_update_cb, battery_status_get_state)
 
 ZMK_SUBSCRIPTION(battery_widget, zmk_battery_state_changed);
+*/
 
 // Set up the canvases and buffers, initialize all widgets
 int zmk_screen_widget_init(struct zmk_screen_widget *widget, lv_obj_t *screen) {
