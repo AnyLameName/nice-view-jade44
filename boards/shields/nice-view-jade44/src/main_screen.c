@@ -77,11 +77,13 @@ int zmk_screen_widget_init(struct zmk_screen_widget *widget, lv_obj_t *screen) {
     lv_obj_set_size(screen_widget->screen_obj, PANEL_WIDTH, PANEL_HEIGHT);
 
     draw_background(screen_widget->screen_obj);
-    
+
+    /*
     lv_obj_t *main = lv_canvas_create(screen_widget->screen_obj);
     screen_widget->main_canvas = main;
     lv_obj_align(main, LV_ALIGN_TOP_RIGHT, 0, 0);
     lv_canvas_set_buffer(main, screen_widget->main_buffer, CANVAS_SIZE, CANVAS_SIZE, CANVAS_COLOR_FORMAT);
+    */
 
     /* These _init functions defined by the ZMK_DISPLAY_WIDGET_LISTENER macro.
      * We need to call them, but we don't need to care about them.
