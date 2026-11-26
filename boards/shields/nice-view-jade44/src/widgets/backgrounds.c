@@ -1,5 +1,3 @@
-#pragma once
-
 #include <lvgl.h>
 #include <util.h>
 

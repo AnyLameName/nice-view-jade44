@@ -23,9 +23,11 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 static struct zmk_screen_widget *screen_widget;
 
+LV_IMAGE_DECLARE(test_bg);
+
 static void draw_background(lv_obj_t *screen_obj) {
     lv_obj_t *background = lv_img_create(screen_obj);
-    lv_img_set_src(background, &main_background);
+    lv_img_set_src(background, &test_bg);
     lv_obj_align(background, LV_ALIGN_CENTER, 0, 0);
 }
 
