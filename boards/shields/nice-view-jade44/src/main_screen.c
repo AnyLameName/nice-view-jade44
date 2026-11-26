@@ -84,7 +84,7 @@ int zmk_screen_widget_init(struct zmk_screen_widget *widget, lv_obj_t *screen) {
     /* These _init functions defined by the ZMK_DISPLAY_WIDGET_LISTENER macro.
      * We need to call them, but we don't need to care about them.
      */
-    battery_widget_init();
+    //battery_widget_init();
 
     return 0;
 }
