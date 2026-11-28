@@ -20,6 +20,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <main_screen.h>
 #include <util.h>
 #include <widgets/battery.h>
+#include <widgets/connections.h>
 
 static struct zmk_screen_widget *screen_widget;
 
@@ -69,6 +70,24 @@ ZMK_DISPLAY_WIDGET_LISTENER(battery_widget, struct battery_state,
 ZMK_SUBSCRIPTION(battery_widget, zmk_battery_state_changed);
 */
 
+/* CONNECTIONS WIDGET */
+
+static void connection_status_update_db(struct conn_state new_conn_state) {
+    screen_widget->state.connections = new_conn_state;
+
+    draw_connections(screen_widget->main_canvas, &screen_widget->state.connections);
+}
+
+ZMK_DISPLAY_WIDGET_LISTENER(conn_widget, struct conn_state,
+                            connection_status_update_cb, battery_status_get_state)
+
+#if IS_ENABLED(CONFIG_USB_DEVICE_STACK)
+ZMK_SUBSCRIPTION(widget_conn_status, zmk_usb_conn_state_changed);
+#endif
+#if defined(CONFIG_ZMK_BLE)
+ZMK_SUBSCRIPTION(widget_conn_status, zmk_ble_active_profile_changed);
+#endif
+
 // Set up the canvases and buffers, initialize all widgets
 int zmk_screen_widget_init(struct zmk_screen_widget *widget, lv_obj_t *screen) {
     screen_widget = widget;
@@ -89,6 +108,7 @@ int zmk_screen_widget_init(struct zmk_screen_widget *widget, lv_obj_t *screen) {
      * We need to call them, but we don't need to care about them.
      */
     //battery_widget_init();
+    conn_widget_init();
 
     return 0;
 }

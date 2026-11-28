@@ -28,6 +28,7 @@ struct widget_state {
 #else
     bool connected;
 #endif
+    struct conn_state connections;
 };
 
 void rotate_canvas(lv_obj_t *canvas);
