@@ -8,7 +8,7 @@
 struct conn_state {
     int active_index;
     bool is_bonded;
-    bool is_connected
+    bool is_connected;
     struct zmk_endpoint_instance selected_endpoint;
 };
 
