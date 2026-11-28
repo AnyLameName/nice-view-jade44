@@ -13,4 +13,4 @@ struct conn_state {
 };
 
 struct conn_state conn_get_state(const zmk_event_t *event);
-void draw_conn_status(lv_obj_t *canvas, const struct conn_state *state);
+void draw_connections(lv_obj_t *canvas, const struct conn_state *state);

@@ -6,7 +6,7 @@
 LV_IMAGE_DECLARE(frown);
 LV_IMAGE_DECLARE(smile);
 
-void draw_conn_status(lv_obj_t *canvas, const struct conn_state *state) {
+void draw_connections(lv_obj_t *canvas, const struct conn_state *state) {
 
 }
 
